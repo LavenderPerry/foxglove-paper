@@ -293,9 +293,17 @@ Lovely's format,
 or may choose to use their knowledge of the format for modding
 outside the context of Foxglove.
 
+\subsection{Launching Games}
+
+To launch games, the launcher uses my own fork of LÖVE. LÖVE already allows
+games to restart themselves, as well as letting them pass a value to themselves
+to be used after they restart. By modifying LÖVE to parse this restart value
+and launch a different game depending on what the value specifies, I can add the
+ability for games to launch other games.
+
 \section{Evaluation Metrics}
 
-Although the project is still at an early stage, evaluation shows that the
+Evaluation shows that the
 launcher meets goals of functionality
 (being able to run games), aesthetics (looking pretty),
 and ease of use (users can use the
@@ -323,17 +331,8 @@ As shown by testing, the game launcher was a successful project.
 Some possible next steps include getting the launcher to run on
 a wider variety of hardware, as well as improving documentation for controls
 and modding APIs.
-%One potential necessary technical change to the launcher
-%would be to give it more control over the LÖVE
-%game framework environment that
-%it runs in. This would require either making the launcher itself be a modified
-%version of
-%LÖVE, or creating a seperate application that uses the LÖVE
-%library.
-%The process of doing either of these things may require rewriting some or all
-%of
-%the existing code from Lua to C++. A rewrite such as this one should be done as
-%early as possible to avoid having to rewrite more code than necessary.
+
+\subsection{Launching Games}
 
 \section{Ethical Considerations}
 
