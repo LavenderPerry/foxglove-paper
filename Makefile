@@ -2,7 +2,7 @@ LATEX = latexmk -pdf --shell-escape
 
 default: document.pdf
 
-document.pdf: Makefile *.tex *.bib oxycomps.sty launcher.png
+document.pdf: Makefile *.tex *.bib *.png oxycomps.sty
 	$(LATEX) document
 
 clean:

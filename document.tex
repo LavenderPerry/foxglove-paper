@@ -30,9 +30,6 @@
 
 \maketitle
 
-% TODO: finish the paper and remove the following line
-I will finish this paper soon...
-
 \section{Introduction and Problem Context}
 
 The video game launcher is one of the most important, yet most overlooked,
@@ -312,27 +309,116 @@ launcher without guidance).
 \subsection{Testing With Games}
 
 To ensure the launcher can handle a reasonable variety of games, I tested
-multiple games made with the LÖVE framework.
-Games could all be listed in the UI
-and launched. Additionally, Balatro could be modded using a mod that I ported
-to Foxglove's modding API.
+multiple games made with the LÖVE framework. These games included
+Balatro, Moonring, oh my giraffe, Egg Related Videogame, and Candy Bag.
+This represents both some of the most popular games made with the framework
+as well as a couple I found on itch.io. All games I chose for testing were
+either ones I already had access to or were free to obtain, yet, even with
+this restriction, I was able to test a representitive sample of games.
+
+\subsection{Testing With Mods}
+
+To test basic functionality of modding, a simple 'test game' and 'test mod'
+were made. The test game displays a solid magenta window with the word
+``unmodded'' on it. The test mod changes the window to green and the text
+to ``modded''. By applying the mod to the game and running it, I could quickly
+see if mods were being loaded correctly.
+
+For real world modding scenarios, I ported a mod for Balatro to my modding
+framework. This mod changes both art within the game as well as the text
+displayed in game. The technical details of these changes involves both
+modifying game code and adding more files to the game for it to reference.
+Both of these aspects are important to test because it is what every other
+mod is built upon.
+The mod I chose is also very simple in scope. This means it is both easy to
+port to my framework as well as being easy to verify that it has loaded
+correctly.
+
+The test game, test mod, and ported version of the real-world mod are all
+available in the paper GitHub repository.
 
 \subsection{User Testing}
 
-Part of the evaluation involved user testing. Testers were able to
-navigate the UI with some guidance. The main issue was knowing the control
-scheme, as I do not provide a tutorial for that anywhere.
-Testers appreciated the aesthetics of the UI as well, but desired more
-customization options.
+A majority of the evaluation involved user testing. I asked users to perform
+a variety of tasks in the program, which included adding a game, adding a
+mod, browsing games in the online menu, and launching a game. I also
+introduced them to the modding API to get opinions related to that.
+After testers experienced the program, they were asked to fill out a form
+to give feedback. This feedback was collected through a series of
+Likert scale and free response questions, evaluating aspects such as
+percieved ease of use of the modding system, clarity of navigating the
+program, and soliciting general feedback to learn what other shortcomings
+testers found.
 
 \section{Results and Discussion}
 
-As shown by testing, the game launcher was a successful project.
-Some possible next steps include getting the launcher to run on
-a wider variety of hardware, as well as improving documentation for controls
-and modding APIs.
+\subsection{Testing With Games}
 
-\subsection{Launching Games}
+The games I tested could all be listed in the UI
+and launched; they all worked as required.
+Multiple game-specific bugs were found and fixed through this
+testing, as well as the results of it being the reason I changed my approach
+to making my own fork of LÖVE, so my modifications would break less games.
+
+\subsection{Testing With Mods}
+
+All mods tested also worked as expected. Testing these mods allowed me to
+find and fix bugs with both the mod loading process and the mod installer.
+Testing the two different mods I did also allowed me to verify that both
+the basic principles of how the mod should be injected works properly
+as well as ensure it works with a more practical scenario.
+
+\subsection{User Testing}
+
+User testing provided mixed results. To begin, there was a consensus that
+the program was confusing to use. Testers were not able to figure out the
+controls on their own, and one gave feedback that mouse controls, as opposed
+to the current keyboard based controls that the launcher uses, would be
+more intuitive to figure out. Even after figuring out the controls,
+many other functions of the program are not immediately clear, such as how
+to add a game or mod to the launcher. These results suggest a need for
+more visual cues in the user interface that demonstrate how to use the
+program. Another potentially helpful change for many testers would be
+either adding guidance on what the controls are, or changing the controls
+to be more intuitive.
+
+Thoughts on the modding framework were much more mixed. Some testers found it
+simple to understand, while others could not understand it at all. This
+seemed to depend on comfort with computer programming and technology in
+general. The testers who struggled to understand it all said that they found
+coding and computers difficult in general, and did not point to any specific
+confusion around how my framework was documented. The testers who found it
+easy, on the other hand, all at least were very familiar with computer
+technology, if they did not have any experience with computer programming
+specifically. This suggests that although my project has potentially
+reached the goal of making video game modding easier for some, it does not
+make things any easier for individuals who do not have much experience with
+active technology use to begin with.
+
+As for the aesthetics of the user interface, most testers found them
+appealing. The high contrast and minimalist design was liked by enough
+of my testers to keep it as the default look of the program. However,
+this is likely the most subjective metric tested, and should not be taken
+as proof of this type of interface being the most objectively pleasing
+to look at.
+
+Finally, nearly every tester remarked that my program was interesting and
+has potential, either on the survey or in conversation to me. This suggests
+that, although the implementation is nowhere near perfect yet, the demand
+for this type of software does exist, and it would at the very least be
+of interest to many people.
+
+\subsection{Discussion and Potential Future Work}
+
+As shown by these results, the project meets pure functionality goals, but
+needs much more work on ease of use before it is useful for most people.
+Although most of this can be solved by working more on documentation and
+improving the user interface, with elements like modding games, I may have
+to accept that only users with some experience with technology will be able
+to create mods. Although results are promising that it is easier when compared
+to other modding frameworks, we still have to keep in mind this
+limitation when discussing and building upon this project. Data results
+from user testing is available in the paper GitHub repository.
 
 \section{Ethical Considerations}
 
@@ -469,6 +555,111 @@ projects like this one.
 %            \item Week 3-4: Last minute changes, submit the project
 %        \end{itemize}
 %\end{itemize}
+
+\section{Replication Instructions}
+
+The first step is to compile my fork of LÖVE. This is only confirmed
+to work on Linux, although it should theoretically work on every platform
+LÖVE supports, so I recommend either using a physical computer running
+Linux, or installing a Linux distribution in a virtual machine.
+
+Dependencies for this are the same as regular LÖVE:
+\begin{itemize}
+    \item CMake
+    \item SDL3
+    \item OpenGL 3.3+, OpenGL ES 3.0+, Vulkan, or Metal
+    \item OpenAL
+    \item LuaJIT
+    \item FreeType
+    \item harfbuzz
+    \item ModPlug
+    \item Vorbisfile
+    \item Theora
+\end{itemize}
+
+To compile, run the following commands in the directory of the LÖVE
+fork repository:
+\begin{verbatim}
+cmake -B build -S. \
+    --install-prefix $PWD/prefix
+cmake --build build \
+    --target install -j$(nproc)
+\end{verbatim}
+
+This will output a binary at `prefix/bin/love`.
+
+Next, get the main Foxglove repository.
+Foxglove requires LuaExpat to run.
+One way to get it is to install Luarocks, then, in the directory of
+the main repository, run
+\begin{verbatim}
+luarocks install --only-deps \
+    foxglove-dev-1.rockspec
+\end{verbatim}
+
+Now, run the binary created by compiling the LÖVE fork, and pass it
+the directory of the main repository. You should see the program
+window open.
+
+\section{Code Architecture Overview}
+
+Foxglove involves two components: the fork of LÖVE, which allows
+the lower level modding stuff to work, and the Foxglove repository,
+which primarily contains launcher user interface code and is itself
+interpreted by the fork of LÖVE.
+
+Starting with the fork, the first changes to be aware of are to
+`src/modules/love/boot.lua`. This file contains the start up, or boot code,
+of the LÖVE framework. The main change is to load the active mods.
+When a game is selected in the launcher, the user interface sends a 'restart'
+signal, along with specifying the game to start and the mods to apply to it.
+`boot.lua` is executed after this signal is received, and applies the mods
+specified to the game. It does this by going through every file in each mod,
+and running the function in the file. This function takes in a string of the
+current file, and returns the string of what the file should contain instead.
+To make deriving the new string easier for mods to accomplish, my fork
+provides a patching function in `src/modules/love/patch.lua`.
+This function is made available to all mods.
+
+The main repository's entry point is `main.lua`. This mostly just defines
+callbacks that LÖVE requires. The majority of the code is in the `lib`
+directory, to easily separate code into clearly defined concerns.
+
+`lib/drawing.lua` defines constants that describe the size of the window
+and user interface elements, as well as provides some utility functions
+for drawing to the screen.
+
+`lib/game.lua` defines a class that describes a game. Included is a method
+which launches the game.
+
+`lib/installer.lua` handles the popup and process
+for installing a game or mod, which
+shows up when a file is dragged and dropped onto the program window.
+
+`lib/listing.lua` defines a class that describes an online listing
+of a game, including the title and URL. It also has a method for checking
+if a text query matches the listing, which is necessary for searching
+to work.
+
+`lib/path.lua` defines constants for commonly used filesystem paths, and
+some functions for manipulating paths.
+
+`lib/screen.lua` keeps track of the different screens used in the interface,
+and defines a function for switching the screen currently on display.
+These screens are defined in the `lib/screen/` directory, and contain
+callbacks for drawing on the window and for handling key presses.
+
+`lib/screen/launcher.lua` defines the main game selection screen that
+shows up when the program is launched. It scans and defines all the
+games added to the launcher.
+
+`lib/screen/online.lua` defines the screen where online listings are shown
+and searched. It scrapes games from online and makes them searchable.
+
+Defining screens in this way allows easily adding another screen if needed.
+I could have also separated the screen backend from the user interface
+drawing code, but I decided not to do this, as it was too much added
+complexity for very little gain in the flexibility of the code.
 
 \printbibliography
 
